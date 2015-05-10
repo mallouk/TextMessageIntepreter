@@ -59,3 +59,5 @@ public class TextMessages extends JFrame{
 }
 
 //comment
+
+//more comments
