@@ -6,8 +6,10 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.util.Scanner;
 
 import javax.swing.JFileChooser;
@@ -150,23 +152,27 @@ public class TextTreeDriver {
 		fc.showOpenDialog(file);
 		String selectedFile = fc.getSelectedFile().toString();;
 		File f = new File(selectedFile);
-		Scanner scan = new Scanner(f);
-		String record1 = "";
-		while (scan.hasNextLine()){
-			record1 = scan.nextLine();
-			if (record1.startsWith(")")){
-				namePerson = textMess.new NamePerson();
-				namePerson.assignPersonName(record1);
-				personName.add(namePerson);
-			}else if (record1.startsWith("/")){
-				convos = textMess.new Conversations();
-				convos.countConversations(record1);
-				namePerson.convoCounter.add(convos);
-			}else if (record1.contains("*")){
-				texts = textMess.new Messages();
-				texts.parseMessages(record1);
-				convos.textMessages.add(texts);
+		BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
+		try{
+			String record1 = bufferedReader.readLine().toString();
+			while (record1 != null){
+				if (record1.startsWith(")")){
+					namePerson = textMess.new NamePerson();
+					namePerson.assignPersonName(record1);
+					personName.add(namePerson);
+				}else if (record1.startsWith("/")){
+					convos = textMess.new Conversations();
+					convos.countConversations(record1);
+					namePerson.convoCounter.add(convos);
+				}else if (record1.contains("*")){
+					texts = textMess.new Messages();
+					texts.parseMessages(record1);
+					convos.textMessages.add(texts);
+				}
+				record1 = bufferedReader.readLine().toString();
 			}
+		}catch(Exception e){
+			e.printStackTrace();
 		}
 
 		DefaultMutableTreeNode namePerTreeNode = new DefaultMutableTreeNode();

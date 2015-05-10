@@ -40,7 +40,6 @@ public class TextMessages extends JFrame{
 			messDate = tokens[2];
 			messTime = tokens[3];
 			message = tokens[4];
-			System.out.println(tokens[4] + " " + tokens.length);
 			messType = tokens[5];
 		}
 		
