@@ -19,6 +19,7 @@ public class TextMessages extends JFrame{
 	class Conversations{
 		TreeObject recTexts = new TreeObject();
 		TreeObject senTexts = new TreeObject();
+		
 		int convoCount;
 		
 		public void countConversations(String record1){
@@ -27,6 +28,43 @@ public class TextMessages extends JFrame{
 		}
 	}
 
+	class Message{
+		private String messDay;
+		private String messDate;
+		private String messTime;
+		private String message;
+		private String messType;
+		
+		public void parseMessages(String record1){
+			String[] tokens = record1.split("-");
+			messDay = tokens[1];
+			messDate = tokens[2];
+			messTime = tokens[3];
+			message = tokens[4];
+			messType = tokens[5];
+		}
+		
+		public String getMessDay(){
+			return messDay;
+		}
+		
+		public String getMessDate(){
+			return messDate;
+		}
+		
+		public String getMessTime(){
+			return messTime;
+		}
+		
+		public String getMessage(){
+			return message;
+		}
+		
+		public String getMessType(){
+			return messType;
+		}
+		
+	}
 	class ReceivedTexts{
 		String recMessDay;
 		String recMessDate;
