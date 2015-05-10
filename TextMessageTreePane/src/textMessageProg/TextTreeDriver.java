@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
+
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -22,6 +23,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 
+import textMessageProg.TextMessages.Messages;
 import textMessageProg.TextMessages.ReceivedTexts;
 import textMessageProg.TextMessages.SentTexts;
 
@@ -32,8 +34,7 @@ public class TextTreeDriver {
 	static TreeObject personName = new TreeObject();
 	static TextMessages.NamePerson namePerson = textMess.new NamePerson();
 	static TextMessages.Conversations convos = textMess.new Conversations();
-	static TextMessages.ReceivedTexts recievedTexts = textMess.new ReceivedTexts();
-	static TextMessages.SentTexts sentTexts = textMess.new SentTexts();
+	static TextMessages.Messages texts = textMess.new Messages();
 
 	static JTree tree;
 	static ColorPane textArea = new ColorPane();
@@ -123,23 +124,22 @@ public class TextTreeDriver {
 
 	public void printMessages(int convoNum, DefaultMutableTreeNode node1){
 		convos = (TextMessages.Conversations)namePerson.convoCounter.get(convoNum);
-		for (int r = 0; r < convos.recTexts.size(); r++){
-			recievedTexts = (ReceivedTexts) convos.recTexts.get(r);
-			sentTexts = (SentTexts) convos.senTexts.get(r);
+		for (int r = 0; r < convos.textMessages.size(); r++){
+			texts = (Messages) convos.textMessages.get(r);
 			textArea.setFont(new Font("Candara", Font.BOLD, 18));
-			if (!recievedTexts.recMessTime.equalsIgnoreCase(" Time ")){
+			if (texts.getMessType().equals("rec")){
 				textArea.append(Color.RED, node1.getParent().toString() + ": ");  
-				textArea.append(new Color(20,140,10), "            " + 
-						recievedTexts.recMessDay + recievedTexts.recMessDate + " at " + 
-						recievedTexts.recMessTime + "\n");
-				textArea.append(Color.BLACK, recievedTexts.recMessage + "\n\n");
+				textArea.append(new Color(20, 140, 10), "            " + 
+						texts.getMessDay() + texts.getMessDate() + " at " + 
+						texts.getMessTime() + "\n");
+				textArea.append(Color.BLACK, texts.getMessage() + "\n\n");
 			}
-			if (!sentTexts.sentMessTime.equalsIgnoreCase(" Time ")){
-				textArea.append(Color.BLUE, "You:");
-				textArea.append(new Color(100,10,140), "            " + 
-						sentTexts.sentMessDay + sentTexts.sentMessDate + " at " + 
-						sentTexts.sentMessTime + "\n");
-				textArea.append(Color.BLACK, sentTexts.sentMessage + "\n\n");
+			if (texts.getMessType().equals("sent")){
+				textArea.append(Color.BLUE, "You: ");  
+				textArea.append(new Color(100, 10, 140), "            " + 
+						texts.getMessDay() + texts.getMessDate() + " at " + 
+						texts.getMessTime() + "\n");
+				textArea.append(Color.BLACK, texts.getMessage() + "\n\n");
 			}
 		}
 	}
@@ -163,13 +163,9 @@ public class TextTreeDriver {
 				convos.countConversations(record1);
 				namePerson.convoCounter.add(convos);
 			}else if (record1.contains("*")){
-				recievedTexts = textMess.new ReceivedTexts();
-				recievedTexts.assignRecievedTexts(record1);
-				convos.recTexts.add(recievedTexts);
-			}else if (record1.startsWith("            ")){
-				sentTexts = textMess.new SentTexts();
-				sentTexts.assignSentTexts(record1);
-				convos.senTexts.add(sentTexts);
+				texts = textMess.new Messages();
+				texts.parseMessages(record1);
+				convos.textMessages.add(texts);
 			}
 		}
 
@@ -191,5 +187,6 @@ public class TextTreeDriver {
 
 	public static void main(String[] args) throws FileNotFoundException{
 		TextTreeDriver driver = new TextTreeDriver();
+		System.out.println("What");
 	}
 }

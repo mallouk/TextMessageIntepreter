@@ -201,9 +201,9 @@ public class SearchFunction {
 			}
 			for (int x = 0; x < namePerson.convoCounter.size(); x++){
 				convos = (TextMessages.Conversations)namePerson.convoCounter.get(x);
-				for (int r = 0; r < convos.recTexts.size(); r++){
-					recievedTexts = (ReceivedTexts) convos.recTexts.get(r);
-					sentTexts = (SentTexts) convos.senTexts.get(r);
+				for (int r = 0; r < convos.textMessages.size(); r++){
+					recievedTexts = (ReceivedTexts) convos.textMessages.get(r);
+					sentTexts = (SentTexts) convos.textMessages.get(r);
 					if (!recievedTexts.recMessTime.equalsIgnoreCase(" Time ") && procRecievedTexts == 1){
 						if (recievedTexts.recMessage.contains(searchFieldArray)){
 							printRecievedMessages(x);
