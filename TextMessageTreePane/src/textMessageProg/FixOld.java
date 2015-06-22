@@ -11,10 +11,13 @@ import textMessageProg.TextMessages.NamePerson;
 public class FixOld {
 
 	public static void main(String[] args){
+		//Get filename
 		File f = new File("Z:/Messages.txt");
 		try{
+			//Iterate through the file
 			BufferedReader bufferedReader = new BufferedReader(new FileReader(f));
 			String record1 = bufferedReader.readLine().toString();
+			//We go through our loop if we have lines in our file.
 			while (record1 != null){
 				if (record1.startsWith("       *- D") || record1.startsWith("            - D-")){
 					//Do Nothing
