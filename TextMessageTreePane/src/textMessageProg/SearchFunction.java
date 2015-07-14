@@ -145,6 +145,7 @@ public class SearchFunction {
 			public void actionPerformed(ActionEvent arg0) {
 				boolean bothChecked = sentTextCheck.isSelected() && recieveTextCheck.isSelected();
 
+				//Selected index deals with if "all people" are searched or just one.
 				int selectedIndex = searchPeopleList.getSelectedIndex();
 				String searchText = searchField.getText();
 				if (bothChecked){					
